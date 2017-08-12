@@ -11,14 +11,14 @@ namespace ConsoleLog
         Error
     }
 
-    public class Log
+    public static class Log
     {
-        protected static string GetLogPrefix(LogType logType)
+        private static string GetLogPrefix(LogType logType)
         {
             return "[" + logType + "]";
         }
 
-        protected static Color GetLogColor(LogType logType)
+        private static Color GetLogColor(LogType logType)
         {
             switch (logType)
             {
@@ -56,13 +56,13 @@ namespace ConsoleLog
             CommonOutput(new StackTrace(true).GetFrame(1), LogType.Error, message);
         }
 
-        protected static void CommonOutput(StackFrame frame, LogType logType, string message)
+        private static void CommonOutput(StackFrame frame, LogType logType, string message)
         {
             ConsoleOutput(frame, GetLogPrefix(logType), GetLogColor(logType), message);
             UnityLogOutput(logType, GetLogString(frame, GetLogPrefix(logType), message));
         }
 
-        protected static void UnityLogOutput(LogType logType, string message)
+        private static void UnityLogOutput(LogType logType, string message)
         {
             switch (logType)
             {
@@ -78,7 +78,7 @@ namespace ConsoleLog
             }
         }
 
-        protected static void ConsoleOutput(StackFrame frame, string prefix, Color color, string message)
+        private static void ConsoleOutput(StackFrame frame, string prefix, Color color, string message)
         {
             if (ConsoleController.Instance != null)
             {
@@ -92,7 +92,7 @@ namespace ConsoleLog
             }
         }
 
-        protected static string GetLogString(StackFrame frame, string prefix, string message)
+        private static string GetLogString(StackFrame frame, string prefix, string message)
         {
             if (frame != null)
             {
