@@ -96,17 +96,21 @@ namespace ConsoleLog
         {
             if (frame != null)
             {
-                string[] s = frame.GetFileName().Split('/');
-                string fileName = s[s.Length - 1];
-                fileName = fileName.Remove(fileName.Length - 3, 3);
+                string fullFileName = frame.GetFileName();
+                if (!string.IsNullOrEmpty(fullFileName))
+                {
+                    string[] s = fullFileName.Split('/');
+                    string fileName = s[s.Length - 1];
+                    fileName = fileName.Remove(fileName.Length - 3, 3);
 
-                return "[" + Time.frameCount + "] " + prefix + " " +
-                       fileName + "." + frame.GetMethod().Name + " (" + frame.GetFileLineNumber() + "): " + message;
+                    return "[" + Time.frameCount + "] " + prefix + " " +
+                           fileName + "." + frame.GetMethod().Name + " (" + frame.GetFileLineNumber() + "): " + message;
+                }
+
+                return "[" + Time.frameCount + "] " + prefix + " " + frame.GetMethod().Name + " (" +
+                       frame.GetFileLineNumber() + "): " + message;
             }
-            else
-            {
-                return prefix + ": " + message;
-            }
+            return prefix + ": " + message;
         }
     }
 }
